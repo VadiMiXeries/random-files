@@ -1,1 +1,111 @@
-<h>File to make the repository work :) </h>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Style Input</title>
+    <style>
+        @font-face {
+            font-family: 'Digital7';
+            src: url(https://vadimixeries.github.io/random-files/digital7.ttf);
+        }
+
+        body {
+            background-color: black;
+            color: rgba(51, 255, 51, 1);
+            font-family: 'Digital7';
+            font-size: 40px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .output-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            scrollbar-width: none; /* Hide scrollbar for Firefox */
+        }
+
+        .output-container::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome, Safari */
+        }
+
+        .output-line {
+            text-shadow: 0 0 40px rgba(51, 255, 51, 0.5), 0 0 20px rgba(51, 255, 51, 0.5);
+            margin: 5px 30px;
+            cursor: default;
+        }
+      
+      .output-line:hover:before {
+        content: ">"
+      }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            padding: 10px 30px;
+            position: relative;
+        }
+
+        .input-prefix {
+            text-shadow: 0 0 40px rgba(51, 255, 51, 0.5), 0 0 20px rgba(51, 255, 51, 0.5);
+        }
+
+        #terminal-input {
+            background: none;
+            border: none;
+            outline: none;
+            color: rgba(51, 255, 51, 1);
+            font-family: 'Digital7';
+            font-size: 40px;
+            flex-grow: 1;
+            text-shadow: 0 0 40px rgba(51, 255, 51, 0.5), 0 0 20px rgba(51, 255, 51, 0.5);
+            overflow: visible; /* Ensure text shadow isn't clipped */
+            position: relative;
+        }
+
+        #terminal-input::selection {
+            background: rgba(51, 255, 51, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="output-container" id="output">
+        <!-- Messages will appear here -->
+    </div>
+
+    <div class="input-container">
+        <span class="input-prefix">&gt;</span>
+        <input type="text" id="terminal-input" autofocus autocomplete="off">
+    </div>
+
+    <script>
+        const inputField = document.getElementById("terminal-input");
+        const outputContainer = document.getElementById("output");
+
+        inputField.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                const text = inputField.value.trim();
+                if (text !== "") {
+                    const newLine = document.createElement("p");
+                    newLine.classList.add("output-line");
+                    newLine.textContent = text; // No ">" symbol
+                    outputContainer.appendChild(newLine);
+                    outputContainer.scrollTop = outputContainer.scrollHeight;
+                    inputField.value = "";
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
